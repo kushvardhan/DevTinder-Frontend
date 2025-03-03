@@ -21,52 +21,58 @@ function Connections() {
         getConnections();
     }, []);
 
-    if (!connection) return null;
-    if (connection.length === 0)
+    if (!connection || connection.length === 0) {
         return (
-            <div className="w-full h-screen flex items-center justify-center">
-                <h1 className="text-3xl text-center">No Connections</h1>
+            <div className="w-full h-screen flex items-center justify-center text-white">
+                <h1 className="text-3xl text-center font-mono">No connection found..</h1>
             </div>
         );
+    }
 
     return (
-        <div className="w-full h-screen flex flex-col items-center py-10 bg-gray-900 text-white">
-            <h1 className="text-2xl font-semibold select-none font-mono">CONNECTIONS</h1>
-            
-            <div className="flex flex-col gap-6 mt-12 w-[90%] sm:w-[60%] h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 p-4">
-                
-                {connection.map((conn, index) => (
+        <div className="w-full min-h-screen flex flex-col items-center py-10 bg-gray-900 text-white px-4">
+            <h1 className="text-2xl font-semibold select-none font-mono">Connections</h1>
+
+            <div className="flex flex-col gap-6 mt-8 w-full max-w-3xl h-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 p-4">
+                {connection.map((conn) => (
                     <div
-                        key={index}
-                        className="w-full flex flex-col sm:flex-row bg-gray-800 p-4 rounded-xl shadow-lg hover:shadow-2xl transition-all"
+                        key={conn._id}
+                        className="w-full flex flex-col sm:flex-row items-center bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg transition-all border-l-4 border-indigo-500"
                     >
                         <img
                             src={conn.photoUrl}
                             alt={`${conn.firstName}'s Avatar`}
-                            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-indigo-500"
+                            className="w-16 h-16 object-cover sm:w-20 sm:h-20 rounded-full border-2 border-indigo-300 shadow-lg"
                         />
-                        <div className="ml-4 flex flex-col justify-center w-full">
-                            <h2 className="text-lg font-bold">{conn.firstName} {conn.lastName}</h2>
-                            <p className="text-sm text-gray-400">Age: {conn.age} | {conn.gender}</p>
+                        <div className="ml-4 flex flex-col justify-center flex-grow text-center sm:text-left">
+                            <h2 className="text-lg text-indigo-300">{conn.firstName} {conn.lastName}</h2>
 
+                            {/* Age & Gender Section (Only if both exist) */}
+                            {conn.age && conn.gender && (
+                                <p className="text-sm select-none text-gray-400">Age: {conn.age} | {conn.gender}</p>
+                            )}
+
+                            {/* About Section (Only if it exists) */}
                             {conn.about && (
-                                <p className="text-sm text-gray-300 mt-1 w-[75%] break-words line-clamp-1">
+                                <p className="text-sm select-none text-gray-300 mt-1 w-[75%] break-words">
                                     {conn.about}
                                 </p>
                             )}
 
-                            <div className="mt-2 flex flex-wrap gap-2">
-                                <h4 className="font-sans text-sm">Skills:</h4>
-                                {conn.skills.map((skill, idx) => (
-                                    <span key={idx} className="bg-indigo-600 text-sm px-3 py-1 rounded-full">
-                                        {skill}
-                                    </span>
-                                ))}
-                            </div>
+                            {/* Skills Section (Only if skills exist and are non-empty) */}
+                            {conn.skills && conn.skills.length > 0 && (
+                                <div className="mt-2 select-none flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                                    <h4 className="font-sans text-sm text-gray-300">Skills:</h4>
+                                    {conn.skills.map((skill, idx) => (
+                                        <span key={idx} className="bg-emerald-800 font-mono tracking-tighter text-sm px-3 py-1 rounded-full">
+                                            {skill}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}
-                
             </div>
         </div>
     );
