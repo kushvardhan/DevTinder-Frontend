@@ -11,7 +11,7 @@ import appStore from './utils/appStore';
 
 function App() {
   return (
-    <div className="w-full h-screen">
+    <div className="">
       <Provider store={appStore}>
       <BrowserRouter basename="/">
         <Routes>
@@ -24,7 +24,6 @@ function App() {
             <Route path="connections" element={<Connections/>}/>
           </Route>
           
-          {/* Fallback for invalid paths */}
           <Route
             path="*"
             element={

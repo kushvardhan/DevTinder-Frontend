@@ -20,21 +20,19 @@ function Nav() {
   };
 
   return (
-    <div className="w-full bg-base-100 shadow-lg">
+    <div className="w-full bg-base-100">
       <div className="navbar container mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo */}
         <div className="flex items-center">
           <Link to="/" className="text-3xl select-none text-purple-100 font-bold">
             DevTinder
           </Link>
         </div>
 
-        {/* Menu for larger screens */}
-        <div className="hidden lg:flex items-center select-none gap-6">
+        <div className="hidden lg:flex items-center select-none gap-6 py-2">
           {user ? (
             <div className="flex items-center gap-4">
               <p className="text-lg text-gray-400">
-                Welcome,{" "}
+                Welcome {" "}
                 <span className="text-pink-300 font-semibold select-none">
                   {user.firstName}
                 </span>

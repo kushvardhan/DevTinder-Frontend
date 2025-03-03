@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios"; 
 import { BASE_URL } from "../utils/Constant";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ function Feed() {
   const dispatch = useDispatch();
   const [feed, setFeed] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [swipeDirection, setSwipeDirection] = useState(null); // Keeps track of swipe direction
+  const [swipeDirection, setSwipeDirection] = useState(null);
 
   const getFeed = async () => {
     try {
@@ -44,118 +44,109 @@ function Feed() {
     const { offset } = info;
 
     if (offset.x > 100) {
-      // Swipe Right - Interested
       setSwipeDirection("right");
       handleSendRequest(userId, "interested");
-      setSwipeDirection(null); // Reset swipe direction after right swipe
+      setSwipeDirection(null); 
     } else if (offset.x < -100) {
-      // Swipe Left - Ignored
       setSwipeDirection("left");
       handleSendRequest(userId, "ignored");
-      setSwipeDirection(null); // Reset swipe direction immediately after left swipe
+      setSwipeDirection(null);
     }
   };
 
-  if(!feed) return null;
-  if(feed.length <= 0 ) {
-    <div
-      className="w-full h-screen flex items-center justify-center text-5xl font-bold text-red-400 opacity-30"
-    >
-      No new user found...
-    </div>
-    }
+  if (!feed || feed.length === 0) {
+    return (
+      <div className="w-full h-screen  flex items-center justify-center text-3xl font-mono select-none font-bold text-red-400 opacity-30">
+        No new user found...
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full h-screen  bg-base-300  flex flex-col items-center justify-center overflow-hidden relative">
-      
-        <>
-          {/* Background Swipe Text */}
-          {swipeDirection && feed.length > 0 && (
-            <div
-              className={`absolute text-5xl font-bold ${swipeDirection === "left" ? "text-red-600" : "text-green-600"} opacity-30`}
-              style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-            >
-              {swipeDirection === "left" ? "Ignored" : "Interested"}
-            </div>
-          )}
-
-          <h2 className="text-center select-none text-zinc-600 font-mono tracking-tight text-xl">
-            Swipe to connect with developers
-          </h2>
-
-          {/* Card Stack */}
-          <div className="relative w-full h-[500px] mt-6 max-w-xs flex items-center justify-center">
-            <AnimatePresence>
-              {feed.slice(currentIndex, currentIndex + 3).map((user, index) => (
-                <motion.div
-                  key={user._id}
-                  className={`absolute w-[90%] h-[90%] bg-gray-800 shadow-lg rounded-lg flex flex-col overflow-hidden ${
-                    index === 0 && swipeDirection === "left"
-                      ? "ring-4 ring-red-600"
-                      : index === 0 && swipeDirection === "right"
-                      ? "ring-4 ring-green-600"
-                      : ""
-                  }`}
-                  style={{
-                    zIndex: 3 - index,
-                    scale: 1 - index * 0.05,
-                    top: `${index * 10}px`,
-                  }}
-                  drag={index === 0 ? "x" : false}
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.5}
-                  onDrag={(event, info) => {
-                    // Track drag direction dynamically
-                    if (info.offset.x > 50) setSwipeDirection("right");
-                    else if (info.offset.x < -50) setSwipeDirection("left");
-                    else setSwipeDirection(null);
-                  }}
-                  onDragEnd={(event, info) =>
-                    index === 0 && handleDragEnd(event, info, user._id)
-                  }
-                  initial={{ opacity: 1 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                >
-                  {/* Card Content */}
-                  <div className="w-full h-[70%]">
-                    <img
-                      src={user.photoUrl || "https://i.pinimg.com/736x/5c/7c/1b/5c7c1bf7fd39ded10379abddb792cf5f.jpg"}
-                      alt="Developer"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-4 flex-1 flex flex-col justify-between space-y-1">
-                    <h1 className="text-xl font-sans font-bold tracking-wide text-gray-100">
-                      {`${user.firstName || "Unknown"} ${user.lastName || "User"}`}
-                    </h1>
-
-                    {/* Age and Gender Section (Rendered only if available) */}
-                    {(user.age || user.gender) && (
-                      <h2 className="text-md text-gray-200 flex">
-                        {user.age ? `${user.age} ` : "20"} <span className="ml-2"></span>
-                        {user.gender ? `${user.gender}` : ""}
-                      </h2>
-                    )}
-
-                    {/* Skills Section (Rendered only if available) */}
-                    {user.skills && user.skills.length > 0 && (
-                      <div className="text-sm text-gray-400">
-                        <span className="text-md text-gray-300">Skills : </span> {user.skills.join(", ")}
-                      </div>
-                    )}
-
-                    {/* Description Section */}
-                    <p className="text-sm text-gray-400 mt-1 line-clamp-2">
-                      {user.about ||
-                        "No description available.Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, placeat saepe minus velit accusantium architecto necessitatibus numquam praesentium quaerat quas, libero neque ipsa."}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+    <div className="w-full h-screen bg-base-300 flex flex-col items-center justify-center overflow-hidden relative">
+      <div>
+        {swipeDirection && feed.length > 0 && (
+          <div
+            className={`absolute text-5xl font-bold ${
+              swipeDirection === "left" ? "text-red-600" : "text-green-600"
+            } opacity-30`}
+            style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+          >
+            {swipeDirection === "left" ? "Ignored" : "Interested"}
           </div>
-        </>
+        )}
+
+        <h2 className="text-center select-none text-zinc-600 font-mono tracking-tight text-xl">
+          Swipe to connect with developers
+        </h2>
+
+        <div className="relative w-full h-[500px] mt-6 max-w-xs flex items-center justify-center">
+          <AnimatePresence>
+            {feed.slice(currentIndex, currentIndex + 3).map((user, index) => (
+              <motion.div
+                key={user._id}
+                className={`absolute w-[90%] h-[90%] bg-gray-800 shadow-lg rounded-lg flex flex-col overflow-hidden ${
+                  index === 0 && swipeDirection === "left"
+                    ? "ring-4 ring-red-600"
+                    : index === 0 && swipeDirection === "right"
+                    ? "ring-4 ring-green-600"
+                    : ""
+                }`}
+                style={{
+                  zIndex: 3 - index,
+                  scale: 1 - index * 0.05,
+                  top: `${index * 10}px`,
+                }}
+                drag={index === 0 ? "x" : false}
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.5}
+                onDrag={(event, info) => {
+                  if (info.offset.x > 50) setSwipeDirection("right");
+                  else if (info.offset.x < -50) setSwipeDirection("left");
+                  else setSwipeDirection(null);
+                }}
+                onDragEnd={(event, info) =>
+                  index === 0 && handleDragEnd(event, info, user._id)
+                }
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+              >
+                <div className="w-full h-[70%]">
+                  <img
+                    src={user.photoUrl || "https://i.pinimg.com/736x/5c/7c/1b/5c7c1bf7fd39ded10379abddb792cf5f.jpg"}
+                    alt="Developer"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4 flex-1 flex flex-col justify-between space-y-1">
+                  <h1 className="text-xl font-sans font-bold tracking-wide text-gray-100">
+                    {`${user.firstName || "Unknown"} ${user.lastName || "User"}`}
+                  </h1>
+
+                  {(user.age || user.gender) && (
+                    <h2 className="text-md text-gray-200 flex">
+                      {user.age ? `${user.age}` : "20"} <span className="ml-2"></span>
+                      {user.gender ? `${user.gender}` : ""}
+                    </h2>
+                  )}
+
+                  {user.skills && user.skills.length > 0 && (
+                    <div className="text-sm text-gray-400">
+                      <span className="text-md text-gray-300">Skills : </span> {user.skills.join(", ")}
+                    </div>
+                  )}
+
+                  <p className="text-sm text-gray-400 mt-1 line-clamp-2">
+                    {user.about ||
+                      "No description available. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, placeat saepe minus velit accusantium architecto necessitatibus numquam praesentium quaerat quas, libero neque ipsa."}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 }

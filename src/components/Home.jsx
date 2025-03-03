@@ -9,6 +9,27 @@ import { addUser } from '../utils/userSlice';
 
 
 function Home() {
+  const user = useSelector((store) => store?.user);
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
+
+  const fetchUser = async ()=>{
+    if(user) return;
+    try{
+      const res = await axios.get(`${BASE_URL}profile/view`,{withCredentials:true});
+      console.log("profile/view : "+ res);
+      dispatch(addUser(res.data));
+    }catch(err){
+      if(err.status===401){
+        Navigate("/login");
+      }
+      console.error(err);
+    }
+  }
+
+  useEffect(()=>{
+    fetchUser();
+  },[]);
 
   return (
     <div className="w-full h-[100%]">

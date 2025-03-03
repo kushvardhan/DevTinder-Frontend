@@ -13,7 +13,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // Clear any existing errors
+    setError(""); 
 
     try {
       const { data } = await axios.post(
@@ -21,12 +21,10 @@ function Login() {
         { email, password },
         { withCredentials: true }
       );
-
-      // Dispatch only the user data to Redux
-      dispatch(addUser(data));
-      navigate("/"); // Redirect to home page after successful login
+      console.log(data);
+      dispatch(addUser(data.data));
+      navigate("/"); 
     } catch (err) {
-      // Check if the error is a "User not found" error
       if (err.response?.data === "User not found") {
         setError(
           <>
@@ -52,7 +50,7 @@ function Login() {
         <div className="text-center mb-4">
           <h1 className="text-5xl font-bold">Login now!</h1>
         </div>
-        <form className="space-y-3" onSubmit={handleSubmit}>
+        <form className="space-y-3">
           <div className="form-control">
             <input
               onChange={(e) => setEmail(e.target.value)}
@@ -74,20 +72,18 @@ function Login() {
             />
 
           </div>
-          {/* Display error messages */}
           {error && (
             <p className="px-2 text-red-400 text-md">
               {error}
             </p>
           )}
           <div className="form-control py-2">
-            <button type="submit" className="btn btn-primary w-full">
+            <button type="submit" onClick={handleSubmit} className="btn btn-primary w-full">
               Login
             </button>
           </div>
         </form>
 
-        {/* Link to Sign Up */}
         <div className="mt-4 text-center">
           <p className="text-gray-400">
             Don’t have an account?{" "}
