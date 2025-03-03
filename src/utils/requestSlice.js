@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const requestSlice = createSlice({
     name: "request",
-    initialState: null, // Change initialState from null to an empty array
+    initialState: [], 
     reducers: {
         addRequest: (state, action) => {
             return action.payload;

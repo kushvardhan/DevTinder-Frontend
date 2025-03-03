@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addRequest, removeRequest } from "../utils/requestSlice";
 
 function Requests() {
-    const request = useSelector((store) => store.request) ; 
+    const request = useSelector((store) => store.request) || [] ; 
     const dispatch = useDispatch();
 
     const requestStatus = useCallback(async (status, id) => {
@@ -15,7 +15,7 @@ function Requests() {
             dispatch(removeRequest(id));
         } catch (err) {
             if (err.response) {
-                console.error("Error response:", err.response.data);
+                console.error("Error response:", err?.response?.data);
                 alert(err.response.data.message || "Something went wrong 1");
             } else {
                 console.error("Error:", err);

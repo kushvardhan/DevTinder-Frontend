@@ -54,13 +54,14 @@ function Feed() {
     }
   };
 
-  if (!feed || feed.length === 0) {
-    return (
-      <div className="w-full h-screen  flex items-center justify-center text-3xl font-mono select-none font-bold text-red-400 opacity-30">
-        No new user found...
-      </div>
-    );
-  }
+  if (!feed) return null;
+  if (feed.length === 0)
+      return (
+          <div className="w-full h-screen flex items-center justify-center">
+              <h1 className="text-3xl text-center">No new User found.</h1>
+          </div>
+      );
+
 
   return (
     <div className="w-full h-screen bg-base-300 flex flex-col items-center justify-center overflow-hidden relative">
