@@ -4,6 +4,8 @@ import axios from "axios";
 import { BASE_URL } from "../utils/Constant";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -14,11 +16,12 @@ function SignUp() {
     age: "",
     gender: "",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // Handle input change
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -36,16 +39,21 @@ function SignUp() {
         { withCredentials: true }
       );
 
-      console.log("Signup Success:", response.data.user);
       dispatch(addUser(response.data.user));
       setLoading(false);
-      alert("Signup successful! Redirecting to Profile Page");
-      navigate("/profile"); 
-
+      toast.success("Successfully signed up!", {
+        style: { backgroundColor: "#28a745", color: "#fff" },
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeButton: false,
+        pauseOnHover: false,
+        draggable: false,
+      });
+      setTimeout(() => {
+        navigate("/profile");
+      }, 2000);
     } catch (err) {
       setLoading(false);
-      console.error("Signup Error:", err.response?.data || err.message);
-
       if (err.response?.data?.error === "Email already exists") {
         setError("This email is already registered. Please use another email or log in.");
       } else {
@@ -61,7 +69,6 @@ function SignUp() {
           <h1 className="text-4xl font-bold">Sign Up</h1>
         </div>
         <form className="space-y-4" onSubmit={handleSignUp}>
-          {/* First Name */}
           <label className="input flex items-center gap-2">
             <input
               type="text"
@@ -73,8 +80,6 @@ function SignUp() {
               required
             />
           </label>
-
-          {/* Last Name */}
           <label className="input flex items-center gap-2">
             <input
               type="text"
@@ -86,8 +91,6 @@ function SignUp() {
               required
             />
           </label>
-
-          {/* Age */}
           <label className="input flex items-center gap-2">
             <input
               type="number"
@@ -99,26 +102,22 @@ function SignUp() {
               required
             />
           </label>
-
-          {/* Gender */}
           <div className="form-control">
-          <select
-  name="gender"
-  value={formData.gender}
-  onChange={handleChange}
-  className="select w-full bg-gray-800 text-gray-200 border-none rounded-md appearance-none"
-  required
->
-  <option value="" disabled>
-    -- Select Gender --
-  </option>
-  <option value="Male">Male</option>
-  <option value="Female">Female</option>
-  <option value="Other">Other</option>
-</select>
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              className="select w-full bg-gray-800 text-gray-200 border-none rounded-md appearance-none"
+              required
+            >
+              <option value="" disabled>
+                -- Select Gender --
+              </option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
-
-          {/* Email */}
           <label className="input flex items-center gap-2">
             <input
               type="email"
@@ -130,8 +129,6 @@ function SignUp() {
               required
             />
           </label>
-
-          {/* Password */}
           <label className="input flex items-center gap-2">
             <input
               type="password"
@@ -144,11 +141,7 @@ function SignUp() {
               minLength={6}
             />
           </label>
-
-          {/* Error Message */}
           {error && <p className="text-red-400 text-sm">{error}</p>}
-
-          {/* Submit Button */}
           <div className="form-control py-2">
             <button
               type="submit"
@@ -159,17 +152,13 @@ function SignUp() {
             </button>
           </div>
         </form>
-
-        {/* Link to Login */}
         <div className="mt-4 text-center">
           <p className="text-gray-400">
-            Already have an account?{" "}
-            <Link to="/login" className="text-blue-500 underline">
-              Log In
-            </Link>
+            Already have an account? <Link to="/login" className="text-blue-500 underline">Log In</Link>
           </p>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={4000} hideProgressBar />
     </div>
   );
 }

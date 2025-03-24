@@ -47,19 +47,16 @@ function Connections() {
                         <div className="ml-4 flex flex-col justify-center flex-grow text-center sm:text-left">
                             <h2 className="text-lg text-indigo-300">{conn.firstName} {conn.lastName}</h2>
 
-                            {/* Age & Gender Section (Only if both exist) */}
                             {conn.age && conn.gender && (
                                 <p className="text-sm select-none text-gray-400">Age: {conn.age} | {conn.gender}</p>
                             )}
 
-                            {/* About Section (Only if it exists) */}
                             {conn.about && (
                                 <p className="text-sm select-none text-gray-300 mt-1 w-[75%] break-words">
                                     {conn.about}
                                 </p>
                             )}
 
-                            {/* Skills Section (Only if skills exist and are non-empty) */}
                             {conn.skills && conn.skills.length > 0 && (
                                 <div className="mt-2 select-none flex flex-wrap items-center justify-center sm:justify-start gap-2">
                                     <h4 className="font-sans text-sm text-gray-300">Skills:</h4>

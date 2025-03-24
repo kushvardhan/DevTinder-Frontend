@@ -18,7 +18,6 @@ function Feed() {
       dispatch(addFeed(res.data.data));
     } catch (err) {
       console.error("Error fetching feed:", err.response?.data || err.message);
-      alert(err.response?.data?.message || "Failed to fetch the feed.");
     }
   };
 
@@ -138,9 +137,9 @@ function Feed() {
                     </div>
                   )}
 
-                  <p className="text-sm text-gray-400 mt-1 line-clamp-2">
+                  <p className="text-sm text-gray-500 mt-1 line-clamp-2">
                     {user.about ||
-                      "No description available. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, placeat saepe minus velit accusantium architecto necessitatibus numquam praesentium quaerat quas, libero neque ipsa."}
+                      "No description Available"}
                   </p>
                 </div>
               </motion.div>

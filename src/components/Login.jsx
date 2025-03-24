@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Added Link
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
@@ -13,26 +13,25 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); 
+    setError("");
 
     try {
       const { data } = await axios.post(
         "http://localhost:4000/login",
         { email, password },
-        { withCredentials: true }
+        { 
+          withCredentials: true,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
-      console.log(data);
       dispatch(addUser(data.data));
-      navigate("/"); 
+      navigate("/");
     } catch (err) {
       if (err.response?.data === "User not found") {
         setError(
           <>
             User not found.{" "}
-            <Link
-              to="/signup"
-              className="text-blue-500 underline"
-            >
+            <Link to="/signup" className="text-blue-500 underline">
               Create an account
             </Link>
           </>
@@ -40,7 +39,6 @@ function Login() {
       } else {
         setError("Invalid email or password. Please try again.");
       }
-      console.error("Error: ", err);
     }
   };
 
@@ -70,20 +68,14 @@ function Login() {
               className="input mt-2 input-bordered w-full"
               required
             />
-
           </div>
-          {error && (
-            <p className="px-2 text-red-400 text-md">
-              {error}
-            </p>
-          )}
+          {error && <p className="px-2 text-red-400 text-md">{error}</p>}
           <div className="form-control py-2">
             <button type="submit" onClick={handleSubmit} className="btn btn-primary w-full">
               Login
             </button>
           </div>
         </form>
-
         <div className="mt-4 text-center">
           <p className="text-gray-400">
             Don’t have an account?{" "}

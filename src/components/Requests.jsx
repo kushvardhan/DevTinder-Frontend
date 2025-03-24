@@ -28,7 +28,7 @@ function Requests() {
             console.log("Request URL:", `${BASE_URL}request/reviews/${status}/${_id}`);
             const res = await axios.post(`${BASE_URL}request/reviews/${status}/${_id}`, {}, { withCredentials: true });
             console.log(`Request ${status}:`, res);
-            dispatch(removeRequest(_id)); // Remove from state after action
+            dispatch(removeRequest(_id));
         } catch (err) {
             console.log(err);
         }
@@ -73,13 +73,13 @@ function Requests() {
 
                         <div className="flex flex-row sm:flex-col justify-center items-center gap-3 mt-3 sm:mt-0">
                             <button
-                                onClick={() => reviewRequest(req._id, "accepted")} // Fixed: Send request ID
+                                onClick={() => reviewRequest(req._id, "accepted")} 
                                 className="p-2 rounded-md bg-green-800 hover:bg-green-700 transition-all text-white"
                             >
                                 <FaCheck className="h-5 w-5" />
                             </button>
                             <button
-                                onClick={() => reviewRequest(req._id, "rejected")} // Fixed: Send request ID
+                                onClick={() => reviewRequest(req._id, "rejected")} 
                                 className="p-2 rounded-md bg-red-800 hover:bg-red-700 transition-all text-white"
                             >
                                 <FaTimes className="h-5 w-5" />

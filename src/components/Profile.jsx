@@ -75,6 +75,7 @@ function Profile() {
               <label className="block text-gray-600 font-bold">First Name</label>
               <input type="text" className="input w-full" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
             </div>
+
             <div className="form-control">
               <label className="block text-gray-600 font-bold">Last Name</label>
               <input type="text" className="input w-full" value={lastName} onChange={(e) => setLastName(e.target.value)} required />

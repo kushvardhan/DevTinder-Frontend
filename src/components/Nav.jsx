@@ -87,7 +87,6 @@ function Nav() {
           )}
         </div>
 
-        {/* Mobile Menu */}
         <div className="lg:hidden">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost">
