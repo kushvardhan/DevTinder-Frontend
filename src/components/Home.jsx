@@ -23,7 +23,7 @@ function Home() {
       if(err.status===401){
         Navigate("/login");
       }
-      console.error(err);
+      console.error(err.message);
     }
   }
 

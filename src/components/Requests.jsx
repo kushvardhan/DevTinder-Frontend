@@ -15,7 +15,7 @@ function Requests() {
             console.log(res.data.data);
             dispatch(addRequest(res.data.data));
         } catch (err) {
-            console.log(err);
+            console.log(err.message);
         }
     };
 
